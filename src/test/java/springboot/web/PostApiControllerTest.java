@@ -106,7 +106,7 @@ public class PostApiControllerTest {
     @Test
     public void posts_조회() throws Exception {
         //given
-        String title = "title";
+        String title = "gettest";
         String content = "content";
         PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder()
                 .title(title)
@@ -119,10 +119,11 @@ public class PostApiControllerTest {
 
         //when
         String url2 = "http://localhost:" + port + "api/v1/posts/1";
+//        ResponseEntity<JSONObject> response = restTemplate.getForEntity(url2, JSONObject.class);
         String response = restTemplate.getForObject(url2, String.class);
 
         //then
         System.out.println(response);
-//        assertThat(response.getJSONObject()).isEqualTo(expectedTitle);
+        assertThat(response).contains("gettest", "content");
     }
 }
