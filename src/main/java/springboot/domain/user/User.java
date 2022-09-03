@@ -21,7 +21,7 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String picture;
 
     @Enumerated(EnumType.STRING) // Enum값을 String 형태로 저장
