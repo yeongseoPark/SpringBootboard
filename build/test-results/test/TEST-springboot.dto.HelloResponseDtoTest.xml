@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="springboot.dto.HelloResponseDtoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-09-06T12:54:21" hostname="LAPTOP-MVO8EM6B" time="0.004">
+  <properties/>
+  <testcase name="lombok_test" classname="springboot.dto.HelloResponseDtoTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
