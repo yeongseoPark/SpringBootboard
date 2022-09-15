@@ -12,6 +12,10 @@ var main = {
         $('#btn-delete').on('click', function () {
             _this.delete();
         });
+
+        $('#btn-comment-save').on('click', function () {
+            _this.commentSave();
+        });
     },
     save : function () {
         var data = {
@@ -28,7 +32,7 @@ var main = {
             data: JSON.stringify(data)
         }).done(function() {
             alert('글이 등록되었습니다.');
-            window.location.href = '/';
+            window.location.href = '/'; // 글 등록이 성공하면 메인페이지로 이동
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
@@ -54,6 +58,7 @@ var main = {
             alert(JSON.stringify(error));
         });
     },
+
     delete : function () {
         var id = $('#id').val();
 
@@ -68,8 +73,32 @@ var main = {
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
-    }
+    },
 
+    commentSave : function () {
+        var data = {
+            postsId: $('#postsId').val(),
+            comment: $('#comment').val()
+        }
+        // 공백 및 빈 문자열 체크
+        if (!data.comment || data.comment.trim() === "") {
+             alert("공백 또는 입력하지 않은 부분이 있습니다.");
+             return false;
+        } else {
+            $.ajax({
+                 type: 'POST',
+                 url: '/api/posts/' + data.postsId + '/comments',
+                 dataType: 'JSON',
+                 contentType: 'application/json; charset=utf-8',
+                 data: JSON.stringify(data)
+                 }).done(function () {
+                        alert('댓글이 등록되었습니다.');
+                        window.location.reload();
+                 }).fail(function (error) {
+                    alert(JSON.stringify(error));
+                 });
+             }
+     }
 };
 
 main.init();

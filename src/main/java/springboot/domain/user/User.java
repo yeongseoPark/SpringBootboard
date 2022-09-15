@@ -4,8 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import springboot.domain.BaseTimeEntity;
+import springboot.domain.comment.Comment;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -27,6 +30,9 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING) // Enum값을 String 형태로 저장
     @Column(nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String picture, Role role) {

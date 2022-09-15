@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="card-header bi bi-chat-dots"> {{#comment.size}}{{comment.size}}{{/comment.size}} Comments</div>
+    {{! 댓글내용 부분 }}
+    <ul class="list-group-flush">
+        {{#comment}}
+            <li class="list-group-item">
+            <li class="list-group-item">
+                <span>
+                    <span style="font-size: small">{{id}}</span>
+                </span>
+                <div>{{comment}}</div>
+            </li>
+        {{/comment}}
+    </ul>
+</div>
