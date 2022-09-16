@@ -1,4 +1,4 @@
-package springboot.web.dto;
+package springboot.web.dto.comment;
 
 import lombok.Getter;
 import springboot.domain.comment.Comment;

@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springboot.domain.posts.Posts;
 import springboot.domain.posts.PostsRepository;
-import springboot.web.dto.PostsListResponseDto;
-import springboot.web.dto.PostsResponseDto;
-import springboot.web.dto.PostsSaveRequestDto;
-import springboot.web.dto.PostsUpdateRequestDto;
+import springboot.web.dto.posts.PostsListResponseDto;
+import springboot.web.dto.posts.PostsResponseDto;
+import springboot.web.dto.posts.PostsSaveRequestDto;
+import springboot.web.dto.posts.PostsUpdateRequestDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

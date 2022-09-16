@@ -6,10 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import springboot.config.auth.dto.SessionUser;
-import springboot.domain.posts.Posts;
 import springboot.service.posts.PostsService;
-import springboot.web.dto.CommentResponseDto;
-import springboot.web.dto.PostsResponseDto;
+import springboot.web.dto.comment.CommentResponseDto;
+import springboot.web.dto.posts.PostsResponseDto;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;

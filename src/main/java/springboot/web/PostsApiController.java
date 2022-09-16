@@ -2,11 +2,10 @@ package springboot.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import springboot.domain.posts.Posts;
 import springboot.service.posts.PostsService;
-import springboot.web.dto.PostsResponseDto;
-import springboot.web.dto.PostsSaveRequestDto;
-import springboot.web.dto.PostsUpdateRequestDto;
+import springboot.web.dto.posts.PostsResponseDto;
+import springboot.web.dto.posts.PostsSaveRequestDto;
+import springboot.web.dto.posts.PostsUpdateRequestDto;
 
 @RequiredArgsConstructor
 @RestController

@@ -7,9 +7,7 @@ import springboot.domain.comment.Comment;
 import springboot.domain.comment.CommentRepository;
 import springboot.domain.posts.Posts;
 import springboot.domain.posts.PostsRepository;
-import springboot.domain.user.User;
-import springboot.domain.user.UserRepository;
-import springboot.web.dto.CommentSaveRequestDto;
+import springboot.web.dto.comment.CommentSaveRequestDto;
 
 @RequiredArgsConstructor
 @Service
@@ -24,9 +22,6 @@ public class CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다"));
         requestDto.setPosts(post);
 
-        System.out.println(requestDto.getComment());
-        System.out.println(requestDto.getPosts());
-        System.out.println(requestDto.getPosts().getContent());
         return commentRepository.save(requestDto.toEntity()).getId();
     }
 
