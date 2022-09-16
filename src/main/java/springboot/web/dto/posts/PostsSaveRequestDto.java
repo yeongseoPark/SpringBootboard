@@ -1,4 +1,4 @@
-package springboot.web.dto;
+package springboot.web.dto.posts;
 
 import lombok.Builder;
 import lombok.Getter;

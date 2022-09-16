@@ -1,4 +1,4 @@
-package springboot.web.dto;
+package springboot.web.dto.comment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
