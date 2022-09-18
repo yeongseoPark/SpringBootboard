@@ -14,11 +14,14 @@ public class CommentSaveRequestDto {
     private String comment;
     private Posts posts;
 
+    private User user;
+
     /* Dto -> Entity */
     public Comment toEntity() {
         return Comment.builder()
                 .comment(comment)
                 .posts(posts)
+                .user(user)
                 .build();
     }
 }

@@ -1,12 +1,14 @@
 package springboot.service.comments;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springboot.domain.comment.Comment;
 import springboot.domain.comment.CommentRepository;
 import springboot.domain.posts.Posts;
 import springboot.domain.posts.PostsRepository;
+import springboot.domain.user.User;
 import springboot.web.dto.comment.CommentSaveRequestDto;
 
 @RequiredArgsConstructor
@@ -21,6 +23,10 @@ public class CommentService {
         Posts post = postsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다"));
         requestDto.setPosts(post);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = (User) principal;
+        requestDto.setUser(currentUser);
 
         return commentRepository.save(requestDto.toEntity()).getId();
     }

@@ -12,7 +12,7 @@ public class PostsResponseDto {
     private Long id;
     private String title;
     private String content;
-    private String author;
+    private String userName;
 
     private List<CommentResponseDto> comments;
 
@@ -20,7 +20,7 @@ public class PostsResponseDto {
         this.id       = entity.getId();
         this.title    = entity.getTitle();
         this.content  = entity.getContent();
-        this.author   = entity.getAuthor();
+        this.userName   = entity.getUser().getName();
         this.comments = entity.getComments()
                 .stream().map(CommentResponseDto::new)
                 .collect(Collectors.toList());

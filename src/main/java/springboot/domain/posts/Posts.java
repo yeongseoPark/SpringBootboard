@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import springboot.domain.BaseTimeEntity;
 import springboot.domain.comment.Comment;
+import springboot.domain.user.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,16 +27,19 @@ public class Posts extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    private String author;
+//    private String author;
 
     @OneToMany(mappedBy = "posts", cascade = CascadeType.REMOVE) // 기본이 지연로딩
     private List<Comment> comments = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @Builder
-    public Posts(String title, String content, String author) {
+    public Posts(String title, String content, User user) {
         this.title = title;
         this.content = content;
-        this.author = author;
+        this.user = user;
     }
 
     public void update(String title , String content) {

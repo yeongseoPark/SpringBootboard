@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import springboot.domain.BaseTimeEntity;
 import springboot.domain.comment.Comment;
+import springboot.domain.posts.Posts;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Posts> posts = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String picture, Role role) {

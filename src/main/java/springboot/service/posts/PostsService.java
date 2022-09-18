@@ -1,10 +1,13 @@
 package springboot.service.posts;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springboot.domain.posts.Posts;
 import springboot.domain.posts.PostsRepository;
+import springboot.domain.user.User;
 import springboot.web.dto.posts.PostsListResponseDto;
 import springboot.web.dto.posts.PostsResponseDto;
 import springboot.web.dto.posts.PostsSaveRequestDto;
@@ -20,6 +23,10 @@ public class PostsService {
 
     @Transactional
     public Long save(PostsSaveRequestDto requestDto) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = (User) principal;
+        requestDto.setUser(currentUser);
+
         return postsRepository.save(requestDto.toEntity()).getId();
     }
 
