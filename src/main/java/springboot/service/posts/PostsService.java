@@ -3,29 +3,36 @@ package springboot.service.posts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springboot.domain.posts.Posts;
 import springboot.domain.posts.PostsRepository;
 import springboot.domain.user.User;
+import springboot.domain.user.UserRepository;
+import springboot.service.UserDetailService;
 import springboot.web.dto.posts.PostsListResponseDto;
 import springboot.web.dto.posts.PostsResponseDto;
 import springboot.web.dto.posts.PostsSaveRequestDto;
 import springboot.web.dto.posts.PostsUpdateRequestDto;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class PostsService {
     private final PostsRepository postsRepository;
+    private final UserRepository userRepository;
+
+    private final UserDetailService userDetailService;
 
     @Transactional
     public Long save(PostsSaveRequestDto requestDto) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = (User) principal;
-        requestDto.setUser(currentUser);
+        User user = userDetailService.returnUser();
+        requestDto.setUser(user);
 
         return postsRepository.save(requestDto.toEntity()).getId();
     }

@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import springboot.domain.posts.Posts;
 import springboot.domain.posts.PostsRepository;
+import springboot.domain.user.Role;
+import springboot.domain.user.User;
+import springboot.domain.user.UserRepository;
 import springboot.service.posts.PostsService;
 import springboot.web.dto.posts.PostsSaveRequestDto;
 import springboot.web.dto.posts.PostsUpdateRequestDto;
@@ -46,6 +49,9 @@ public class PostApiControllerTest {
 
     @Autowired
     private PostsRepository postsRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private PostsService postsService;
@@ -76,10 +82,17 @@ public class PostApiControllerTest {
         //given
         String title = "title";
         String content = "content";
+        User user = userRepository.save(User.builder()
+                .name("name")
+                .email("fake@naver.com")
+                .picture("fakePic.com")
+                .role(Role.USER)
+                .build());
+
         PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder()
                 .title(title)
                 .content(content)
-                .author("author")
+                .user(user)
                 .build();
 
         String url = "http://localhost:" + port + "api/v1/posts";
@@ -101,10 +114,17 @@ public class PostApiControllerTest {
     @WithMockUser(roles="USER")
     public void posts_수정() throws Exception {
         // given
+        User user = userRepository.save(User.builder()
+                .name("name")
+                .email("fake@naver.com")
+                .picture("fakePic.com")
+                .role(Role.USER)
+                .build());
+
         Posts savedPosts = postsRepository.save(Posts.builder()
                 .title("title")
                 .content("content")
-                .author("author")
+                .user(user)
                 .build());
 
         Long updateId = savedPosts.getId();
@@ -138,10 +158,17 @@ public class PostApiControllerTest {
         //given
         String title = "gettest";
         String content = "getcontent";
+        User user = userRepository.save(User.builder()
+                .name("name")
+                .email("fake@naver.com")
+                .picture("fakePic.com")
+                .role(Role.USER)
+                .build());
+
         PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder()
                 .title(title)
                 .content(content)
-                .author("author")
+                .user(user)
                 .build();
 
         postsService.save(requestDto);

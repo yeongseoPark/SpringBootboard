@@ -2,7 +2,6 @@ package springboot.web.dto.posts;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import springboot.domain.posts.Posts;
 import springboot.domain.user.User;

@@ -9,14 +9,14 @@ import springboot.domain.user.User;
 public class CommentResponseDto {
     private Long id;
     private String comment;
-    private User user;
+    private String userName;
     private Posts posts;
 
     /* Entity -> Dto */
     public CommentResponseDto(Comment comment) {
         this.id = comment.getId();
         this.comment = comment.getComment();
-        this.user = comment.getUser();
+        this.userName = comment.getUser().getName();
         this.posts = comment.getPosts();
     }
 }
