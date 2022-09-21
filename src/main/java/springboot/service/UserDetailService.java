@@ -3,13 +3,17 @@ package springboot.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import springboot.domain.user.User;
 import springboot.domain.user.UserRepository;
 
+import java.security.Principal;
+
 @RequiredArgsConstructor
 @Service
-public class UserDetailService {
+public class UserDetailService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -30,5 +34,15 @@ public class UserDetailService {
         User user = userRepository.findByEmail(email).orElse(null);
 
         return user;
+    }
+
+
+    public Principal returnPrincipal() {
+        return (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

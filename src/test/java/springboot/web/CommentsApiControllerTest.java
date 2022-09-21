@@ -10,21 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithSecurityContext;
-import org.springframework.security.test.context.support.WithSecurityContextFactory;
-import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.security.test.context.support.*;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import springboot.domain.comment.CommentRepository;
 import springboot.domain.posts.Posts;
@@ -37,9 +28,6 @@ import springboot.service.comments.CommentService;
 import springboot.service.posts.PostsService;
 import springboot.web.dto.comment.CommentSaveRequestDto;
 import springboot.web.dto.posts.PostsSaveRequestDto;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -70,8 +58,12 @@ public class CommentsApiControllerTest {
     @Autowired
     private PostsService postsService;
 
+
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private CommentsApiController commentsApiController;
 
     @Autowired
     private UserDetailService userDetailsService;
@@ -92,31 +84,13 @@ public class CommentsApiControllerTest {
                 .build();
     }
 
-    @Retention(RetentionPolicy.RUNTIME)
-    @WithSecurityContext(factory = WithUserDetailsSecurityContextFactory.class)
-    public @interface WithMockCustomUser {
-        String name() default "testName";
+    @Before
+    public void setUser() {
+        User user = new User("fakeUser","1park5@naver.com","fakePic.com",Role.USER);
+        // 유저가 있어야 UserDetailService의 returnUser가 유저 가져올 수 있음
 
-        String email() default "testemail@gmail.com";
-
-        Role role() default Role.USER;
-    }
-
-    final class WithUserDetailsSecurityContextFactory implements WithSecurityContextFactory<WithUserDetails> {
-        private final UserDetailsService userDetailsService;
-        @Autowired
-        public WithUserDetailsSecurityContextFactory(UserDetailsService userDetailsService) {
-            this.userDetailsService = userDetailsService;
-        }
-        public org.springframework.security.core.context.SecurityContext createSecurityContext(WithUserDetails withUser) {
-            String username = withUser.value();
-            Assert.hasLength(username, "value() must be non-empty String");
-            UserDetails principal = userDetailsService.loadUserByUsername(username);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), principal.getAuthorities());
-            SecurityContext context = SecurityContextHolder.createEmptyContext();
-            context.setAuthentication(authentication);
-            return context;
-        }
+        userRepository.deleteAll();
+        userRepository.save(user);
     }
 
     @After
@@ -124,6 +98,13 @@ public class CommentsApiControllerTest {
         postsRepository.deleteAll();
         commentRepository.deleteAll();
     }
+
+    @AfterTransaction
+    public void tearDownTransaction() throws Exception {
+        postsRepository.deleteAll();
+        commentRepository.deleteAll();
+    }
+
 
     @Test
     @WithMockCustomUser
@@ -156,15 +137,21 @@ public class CommentsApiControllerTest {
 
         Long id = posts.getId();
 
-        String url = "http://localhost:"+ port + "/api/posts/" + id + "/comments";
+//        String url = "http://localhost:"+ port + "/api/v1/posts/" + id + "/comments";
 
         //when
 
-        mvc.perform(post(url)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(saveRequestDto)))
-                .andExpect(status().isOk())
-                .andDo(print());
+        commentsApiController.save(saveRequestDto,id);
+
+        //then
+
+        assertThat(commentRepository.findAll().get(0).getComment()).isEqualTo("comment");
+
+//        mvc.perform(post(url)
+//                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+//                        .content(objectMapper.writeValueAsString(saveRequestDto)))
+//                .andDo(print())
+//                .andExpect(status().isOk());
 
     }
 
