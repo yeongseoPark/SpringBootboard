@@ -37,10 +37,6 @@ public class UserDetailService implements UserDetailsService {
     }
 
 
-    public Principal returnPrincipal() {
-        return (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

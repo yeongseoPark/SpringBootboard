@@ -1,6 +1,10 @@
 package springboot.service.posts;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
@@ -61,10 +65,9 @@ public class PostsService {
         return new PostsResponseDto(entity);
     }
 
+    /* 페이징 1 */
     @Transactional(readOnly = true) //트랜젝션 범위는 유지하나, 조회 기능만 남겨서 조회 속도를 개선함
-    public List<PostsListResponseDto> findAllDesc() {
-        return postsRepository.findAllDesc().stream()
-                .map(posts -> new PostsListResponseDto(posts))
-                .collect(Collectors.toList());
+    public Page<Posts> findAllDesc(Pageable pageable) {
+        return postsRepository.findAllDesc(pageable);
     }
 }

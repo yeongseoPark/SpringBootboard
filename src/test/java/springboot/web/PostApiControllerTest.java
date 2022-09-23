@@ -86,7 +86,7 @@ public class PostApiControllerTest {
         // 유저가 있어야 UserDetailService의 returnUser가 유저 가져올 수 있음
 
         userRepository.deleteAll();
-        userRepository.save(user);
+//        userRepository.save(user);
     }
 
 
@@ -113,17 +113,10 @@ public class PostApiControllerTest {
                 .content(content)
                 .build();
 
-//        String url = "http://localhost:" + port + "api/v1/posts";
-
         //when
 
         postsApiController.save(requestDto);
 
-//        mvc.perform(post(url)
-//                .contentType(MediaType.APPLICATION_JSON_UTF8)
-//                        .content(new ObjectMapper().writeValueAsString(requestDto))) // 문자열 JSON으로 변환
-//                .andDo(print())
-//                                .andExpect(status().isOk());
 
         //then
         List<Posts> all = postsRepository.findAll();
