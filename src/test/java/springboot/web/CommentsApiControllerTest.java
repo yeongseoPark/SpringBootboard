@@ -137,7 +137,6 @@ public class CommentsApiControllerTest {
 
         Long id = posts.getId();
 
-//        String url = "http://localhost:"+ port + "/api/v1/posts/" + id + "/comments";
 
         //when
 
@@ -146,13 +145,6 @@ public class CommentsApiControllerTest {
         //then
 
         assertThat(commentRepository.findAll().get(0).getComment()).isEqualTo("comment");
-
-//        mvc.perform(post(url)
-//                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-//                        .content(objectMapper.writeValueAsString(saveRequestDto)))
-//                .andDo(print())
-//                .andExpect(status().isOk());
-
     }
 
     @Test

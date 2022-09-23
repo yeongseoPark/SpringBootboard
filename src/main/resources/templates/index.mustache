@@ -37,6 +37,15 @@
             {{/posts}}
             </tbody>
         </table>
-    </div>
 
+        <ul class="pagination justify-content-center">
+            {{#hasPrev}}
+                <a class="page-link" href="?page={{prev}}">Previous</a>
+            {{/hasPrev}}
+            {{#hasNext}}
+                <a class="page-link" href="?page={{ next }}">Next</a>
+            {{/hasNext}}
+        </ul>
+
+    </div>
 {{>layout/footer}}
