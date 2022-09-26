@@ -27,7 +27,7 @@
             </tr>
             </thead>
             <tbody id="tbody">
-            {{#posts}} <!--posts 리스트를 순회, 변수 는 여기서 뽑아낸 객체의 필드, 컨트롤러에서 model 객체를 통해 넘겨줌-->
+            {{#posts}} <!-- 리스트를 순회, 변수 는 여기서 뽑아낸 객체의 필드, 컨트롤러에서 model 객체를 통해 넘겨줌-->
                 <tr>
                     <td>{{id}}</td>
                     <td><a href="/posts/{{id}}">{{title}}</a></td>
@@ -46,6 +46,5 @@
                 <a class="page-link" href="?page={{ next }}">Next</a>
             {{/hasNext}}
         </ul>
-
     </div>
 {{>layout/footer}}
