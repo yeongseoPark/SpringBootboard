@@ -1,5 +1,7 @@
 package springboot.utils;
 
+import org.json.simple.parser.ParseException;
+
 import javax.websocket.*;
 import java.net.URI;
 import java.nio.ByteBuffer;
@@ -48,7 +50,7 @@ public class WebsocketClientEndpoint {
      * @param message The text message
      */
     @OnMessage
-    public void onMessage(String message) {
+    public void onMessage(String message) throws ParseException {
         if (this.messageHandler != null) {
             this.messageHandler.handleMessage(message);
         }
@@ -84,6 +86,6 @@ public class WebsocketClientEndpoint {
      */
     public static interface MessageHandler {
 
-        public void handleMessage(String message);
+        public void handleMessage(String message) throws ParseException;
     }
 }
