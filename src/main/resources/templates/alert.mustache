@@ -1,0 +1,18 @@
+{{>layout/header}}
+
+<div>
+    <input type="number" id = "price" placeholder="하한 금액을 입력하세요">
+    <input type="number" id = "percentage" placeholder="하한 퍼센트를 입력하세요">
+    <button type="button" class="btn btn-primary" id="alert-save-btn">알림 등록</button>
+</div>
+
+
+{{#alerts}} <!-- 리스트를 순회, 변수 는 여기서 뽑아낸 객체의 필드, 컨트롤러에서 model 객체를 통해 넘겨줌-->
+<tr>
+    <td>{{id}}</td>
+    <td><button type="button" id = "alert-start">알림 시작 </button></td>
+    <td>{{price}}</td>
+</tr>
+{{/alerts}}
+
+{{>layout/footer}}

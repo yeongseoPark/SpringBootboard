@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import springboot.domain.BaseTimeEntity;
+import springboot.domain.alert.Alert;
 import springboot.domain.comment.Comment;
 import springboot.domain.posts.Posts;
 
@@ -37,6 +38,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Posts> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Alert> alerts = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String picture, Role role) {
