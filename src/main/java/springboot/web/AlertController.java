@@ -27,12 +27,17 @@ public class AlertController {
 
     @GetMapping("/alerts")
     public String findAlert(Model model) {
-        List<alertResponseDto> alerts = alertService.findByUser();
+        List<alertResponseDto> alerts = alertService.findByUser(model);
 
         if (alerts != null) {
             model.addAttribute("alerts", alerts);
         }
 
         return "alert";
+    }
+
+    @GetMapping("/alerts/1")
+    public void AlertUser() {
+        alertService.AlertUser();
     }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import springboot.domain.alert.AlertRepository;
 import springboot.utils.WebsocketClientEndpoint;
 
 import java.io.IOException;
@@ -12,8 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class WSTest {
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException { // 이게 어디서 돌아가야...
         try {
             final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("wss://ws.coincap.io/prices?assets=bitcoin"));
             JSONParser jsonParser = new JSONParser();
@@ -21,11 +21,12 @@ public class WSTest {
             while (true) {
                 clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
                     public void handleMessage(String message) throws ParseException {
-                        System.out.println("msg = " + message);
 
                         Object obj = jsonParser.parse(message);
                         JSONObject jsonObject = (JSONObject) obj;
-                        System.out.println(jsonObject.get("bitcoin"));
+
+                        double price = (double) jsonObject.get("bitcoin");
+                        System.out.println(price);
                     }
                 });
                 try {

@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface AlertRepository extends JpaRepository<Alert, Long> {
-    @Query("SELECT p FROM alert where p.user.id = :id")
+    @Query("SELECT p FROM Alert p where p.user.id = :id")
     List<Alert> findByUser(@Param("id") Long id);
 }
