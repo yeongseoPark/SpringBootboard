@@ -18,15 +18,15 @@ import java.util.List;
 public class AlertController {
 
     private final AlertService alertService;
-    private final AlertRepository alertRepository;
 
     @PostMapping("/alerts/save")
-    public Long AlertSave(@RequestBody alertSaveDto alertSaveDto) {
-        return alertService.save(alertSaveDto);
+    public void AlertSave(@RequestBody alertSaveDto alertSaveDto) {
+        alertService.save(alertSaveDto);
     }
 
     @GetMapping("/alerts")
     public String findAlert(Model model) {
+
         List<alertResponseDto> alerts = alertService.findByUser(model);
 
         if (alerts != null) {

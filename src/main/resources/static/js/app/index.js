@@ -19,20 +19,20 @@ var main = {
 
         $('#alert-save-btn').on('click', function() {
             _this.alertSave();
-        }
+        });
 
        $('#alert-start').on('click', function() {
                 _this.alertStart();
-            }
+            });
     },
 
     alertStart : function() {
          $.ajax({
                             type: 'GET',
                             url: '/alerts/1',
-                            dataType: 'json',
-                            contentType:'application/json; charset=utf-8',
-                            data: JSON.stringify(data)
+//                            dataType: 'json',
+//                            contentType:'application/json; charset=utf-8',
+//                            data: JSON.stringify(data)
                         }).done(function() {
                             alert('알림시작.');
                         }).fail(function (error) {
