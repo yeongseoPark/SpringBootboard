@@ -26,16 +26,16 @@ public class AlertService {
     private final AlertRepository alertRepository;
     private final UserDetailService userDetailService;
 
-
-    public Long save(alertSaveDto alertSaveDto) {
+    public void save(alertSaveDto alertSaveDto) {
         User user = userDetailService.returnUser();
         alertSaveDto.setUser(user);
 
-        return alertRepository.save(alertSaveDto.toEntity()).getId();
+        alertRepository.save(alertSaveDto.toEntity());
     }
 
     public ArrayList<alertResponseDto> findByUser(Model model) {
         User user = userDetailService.returnUser();
+
         List<Alert> alerts = alertRepository.findByUser(user.getId());
 
         ArrayList<alertResponseDto> alertsDto = new ArrayList<>();

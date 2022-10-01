@@ -46,5 +46,10 @@
                 <a class="page-link" href="?page={{ next }}">Next</a>
             {{/hasNext}}
         </ul>
+
+        {{#userName}} <!-- userName이 있다면 이를 노출 -->
+            <a href = "/alerts" role = "button">alerts</a>
+        {{/userName}}
+
     </div>
 {{>layout/footer}}

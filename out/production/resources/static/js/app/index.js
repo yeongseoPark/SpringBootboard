@@ -16,7 +16,50 @@ var main = {
         $('#btn-comment-save').on('click', function () {
             _this.commentSave();
         });
+
+        $('#alert-save-btn').on('click', function() {
+            _this.alertSave();
+        });
+
+       $('#alert-start').on('click', function() {
+                _this.alertStart();
+            });
     },
+
+    alertStart : function() {
+         $.ajax({
+                            type: 'GET',
+                            url: '/alerts/1',
+//                            dataType: 'json',
+//                            contentType:'application/json; charset=utf-8',
+//                            data: JSON.stringify(data)
+                        }).done(function() {
+                            alert('알림시작.');
+                        }).fail(function (error) {
+                            alert(JSON.stringify(error));
+                        });
+    },
+
+    alertSave : function () {
+        var data = {
+            price : $('#price').val(),
+            percentage : $('#percentage').val()
+        };
+
+        $.ajax({
+                    type: 'POST',
+                    url: '/alerts/save',
+                    dataType: 'json',
+                    contentType:'application/json; charset=utf-8',
+                    data: JSON.stringify(data)
+                }).done(function() {
+                    alert('알림이 등록되었습니다.');
+                    window.location.href = '/alerts'; // 글 등록이 성공하면 메인페이지로 이동
+                }).fail(function (error) {
+                    alert(JSON.stringify(error));
+                });
+    },
+
     save : function () {
         var data = {
             title: $('#title').val(),
