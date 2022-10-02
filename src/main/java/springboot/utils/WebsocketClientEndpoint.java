@@ -12,10 +12,12 @@ public class WebsocketClientEndpoint {
     Session userSession = null;
     private MessageHandler messageHandler;
 
-    public WebsocketClientEndpoint(URI endpointURI) {
+    public Session WebsocketClientEndpoint(URI endpointURI) {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            container.connectToServer(this, endpointURI);
+            Session session = container.connectToServer(this, endpointURI);
+
+            return session;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -85,7 +87,6 @@ public class WebsocketClientEndpoint {
      * @author Jiji_Sasidharan
      */
     public static interface MessageHandler {
-
         public void handleMessage(String message) throws ParseException;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import springboot.domain.alert.AlertRepository;
 import springboot.service.AlertService;
 import springboot.domain.comment.alert.alertSaveDto;
@@ -20,8 +21,9 @@ public class AlertController {
     private final AlertService alertService;
 
     @PostMapping("/alerts/save")
-    public void AlertSave(@RequestBody alertSaveDto alertSaveDto) {
-        alertService.save(alertSaveDto);
+    @ResponseBody
+    public long AlertSave(@RequestBody alertSaveDto alertSaveDto) {
+        return alertService.save(alertSaveDto);
     }
 
     @GetMapping("/alerts")
