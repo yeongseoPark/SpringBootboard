@@ -14,6 +14,8 @@ import springboot.domain.comment.alert.alertSaveDto;
 import springboot.utils.WebsocketClientEndpoint;
 
 import javax.validation.constraints.NotNull;
+import javax.websocket.Session;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -54,36 +56,34 @@ public class AlertService {
          double SetPrice = alert.getPrice();
         JSONParser jsonParser = new JSONParser();
 
-        WebsocketClientEndpoint.MessageHandler handler = new WebsocketClientEndpoint.MessageHandler() {
-            public void handleMessage(String message) throws ParseException {
+        try {
+            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint();
 
-                Object obj = jsonParser.parse(message);
-                JSONObject jsonObject = (JSONObject) obj;
+            Session session = clientEndPoint.connect(new URI("wss://ws.coincap.io/prices?assets=bitcoin"));
 
-                while (true) {
+            WebsocketClientEndpoint.MessageHandler handler = new WebsocketClientEndpoint.MessageHandler() {
+                public void handleMessage(String message) throws ParseException, IOException {
+                    Object obj = jsonParser.parse(message);
+
+                    JSONObject jsonObject = (JSONObject) obj;
+
                     double price = Double.parseDouble(jsonObject.get("bitcoin").toString());
                     System.out.println(price);
 
                     if (price < SetPrice) {
                         System.out.println("끝");
-                        break;
+                        session.close();
+                    }
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        System.err.println("InterruptedException exception: " + ex.getMessage());
                     }
                 }
-
-                // 여기에 닫는 코드를..
-            }
-        };
-
-        try {
-            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI("wss://ws.coincap.io/prices?assets=bitcoin"));
+            };
 
             clientEndPoint.addMessageHandler(handler);
-
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException ex) {
-                System.err.println("InterruptedException exception: " + ex.getMessage());
-            }
 
         } catch (URISyntaxException ex) {
             System.err.println("URISyntaxException exception: " + ex.getMessage());
