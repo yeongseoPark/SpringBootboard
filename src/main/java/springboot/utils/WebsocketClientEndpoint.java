@@ -3,6 +3,7 @@ package springboot.utils;
 import org.json.simple.parser.ParseException;
 
 import javax.websocket.*;
+import java.io.IOException;
 import java.net.URI;
 import java.nio.ByteBuffer;
 
@@ -12,12 +13,16 @@ public class WebsocketClientEndpoint {
     Session userSession = null;
     private MessageHandler messageHandler;
 
-    public Session WebsocketClientEndpoint(URI endpointURI) {
+    public WebsocketClientEndpoint() {
+    }
+
+    public Session connect(URI endpointURI) {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             Session session = container.connectToServer(this, endpointURI);
 
             return session;
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -52,7 +57,7 @@ public class WebsocketClientEndpoint {
      * @param message The text message
      */
     @OnMessage
-    public void onMessage(String message) throws ParseException {
+    public void onMessage(String message) throws ParseException, IOException {
         if (this.messageHandler != null) {
             this.messageHandler.handleMessage(message);
         }
@@ -87,6 +92,6 @@ public class WebsocketClientEndpoint {
      * @author Jiji_Sasidharan
      */
     public static interface MessageHandler {
-        public void handleMessage(String message) throws ParseException;
+        public void handleMessage(String message) throws ParseException, IOException;
     }
 }
