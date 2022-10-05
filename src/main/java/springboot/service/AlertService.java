@@ -11,6 +11,8 @@ import springboot.domain.alert.AlertRepository;
 import springboot.domain.user.User;
 import springboot.domain.comment.alert.alertResponseDto;
 import springboot.domain.comment.alert.alertSaveDto;
+import springboot.firebase.NotificationRequest;
+import springboot.firebase.NotificationService;
 import springboot.utils.WebsocketClientEndpoint;
 
 import javax.validation.constraints.NotNull;
@@ -27,6 +29,8 @@ public class AlertService {
 
     private final AlertRepository alertRepository;
     private final UserDetailService userDetailService;
+
+    private final NotificationService notificationService;
 
     public long save(@NotNull alertSaveDto alertSaveDto) {
         User user = userDetailService.returnUser();
@@ -56,6 +60,12 @@ public class AlertService {
          double SetPrice = alert.getPrice();
         JSONParser jsonParser = new JSONParser();
 
+        final NotificationRequest build = NotificationRequest.builder()
+                .title("bitcoin alert")
+                .message(SetPrice + "broke down")
+                .token(notificationService.getToken(userDetailService.returnUser().getEmail()))
+                .build();
+
         try {
             final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint();
 
@@ -72,6 +82,7 @@ public class AlertService {
 
                     if (price < SetPrice) {
                         System.out.println("끝");
+                        notificationService.sendNotification(build);
                         session.close();
                     }
 
