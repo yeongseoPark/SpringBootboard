@@ -9,7 +9,6 @@ import springboot.config.auth.dto.SessionUser;
 
 @RestController
 public class NotificationApiController {
-
     private final NotificationService notificationService;
 
     public NotificationApiController(NotificationService notificationService) {
