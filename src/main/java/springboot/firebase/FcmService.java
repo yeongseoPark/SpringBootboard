@@ -15,7 +15,6 @@ public class FcmService {
     private static final Logger logger = LoggerFactory.getLogger(FcmService.class);
 
     public void send(final NotificationRequest notificationRequest) throws InterruptedException, ExecutionException {
-        System.out.println("리퀘 : " + notificationRequest);
         Message message = Message.builder()
                 .setToken(notificationRequest.getToken())
                 .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "300")

@@ -34,7 +34,6 @@ public class NotificationService {
 
     public void sendNotification(final NotificationRequest request) {
         try {
-            System.out.println("토큰맵 : " + tokenMap);
             fcmService.send(request);
         } catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage());

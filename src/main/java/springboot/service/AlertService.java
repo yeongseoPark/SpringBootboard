@@ -76,9 +76,9 @@ public class AlertService {
                     Object obj = jsonParser.parse(message);
 
                     JSONObject jsonObject = (JSONObject) obj;
+                    System.out.println(jsonObject);
 
                     double price = Double.parseDouble(jsonObject.get("bitcoin").toString());
-                    System.out.println(price);
 
                     if (price < SetPrice) {
                         System.out.println("끝");
