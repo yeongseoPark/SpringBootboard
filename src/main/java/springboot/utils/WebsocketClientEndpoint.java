@@ -9,7 +9,6 @@ import java.nio.ByteBuffer;
 
 @ClientEndpoint
 public class WebsocketClientEndpoint {
-
     Session userSession = null;
     private MessageHandler messageHandler;
 
@@ -19,9 +18,9 @@ public class WebsocketClientEndpoint {
     public Session connect(URI endpointURI) {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            Session session = container.connectToServer(this, endpointURI);
+            userSession = container.connectToServer(this, endpointURI);
 
-            return session;
+            return userSession;
 
         } catch (Exception e) {
             throw new RuntimeException(e);
