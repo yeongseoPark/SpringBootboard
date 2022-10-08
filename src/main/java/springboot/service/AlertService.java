@@ -1,6 +1,11 @@
 package springboot.service;
 
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -21,6 +26,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,6 +37,41 @@ public class AlertService {
     private final UserDetailService userDetailService;
 
     private final NotificationService notificationService;
+
+    public ArrayList findAllTickers(){
+        ArrayList<String> arr = null;
+        try {
+            OkHttpClient client = new OkHttpClient();
+            MediaType mediaType = MediaType.parse("text/plain");
+            Request request = new Request.Builder()
+                    .url("http://api.coincap.io/v2/assets")
+                    .get()
+                    .build();
+
+            Response response = client.newCall(request).execute();
+
+            JSONParser jsonParser = new JSONParser();
+            Object obj = jsonParser.parse(response.body().string());
+            JSONArray jsonArray = (JSONArray) ((JSONObject) obj).get("data");
+
+            Iterator<JSONObject> it = jsonArray.iterator();
+
+            arr = new ArrayList<>();
+
+            while (it.hasNext()) {
+                String ticker;
+                ticker = (String) it.next().get("symbol");
+
+                arr.add(ticker);
+            }
+
+        } catch (IOException ie) {
+            System.err.println("IOExcption " + ie.getMessage());
+        } catch (ParseException pe) {
+            System.err.println("ParseException " + pe.getMessage());
+        }
+        return arr;
+    }
 
     public long save(@NotNull alertSaveDto alertSaveDto) {
         User user = userDetailService.returnUser();
