@@ -9,6 +9,7 @@ import springboot.service.AlertService;
 import springboot.domain.comment.alert.alertSaveDto;
 import springboot.domain.comment.alert.alertResponseDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,9 +31,13 @@ public class AlertController {
 
         List<alertResponseDto> alerts = alertService.findByUser(model);
 
+        ArrayList<String> tickers = alertService.findAllTickers();
+
         if (alerts != null) {
             model.addAttribute("alerts", alerts);
         }
+
+        model.addAttribute(tickers);
 
         return "alert";
     }
