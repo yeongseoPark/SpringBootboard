@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import springboot.domain.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
@@ -23,6 +24,10 @@ public class Alert {
 
     @Column
     private double price;
+
+    @Column
+    @NotNull
+    private String ticker;
 
     @Column
     private double percentage;

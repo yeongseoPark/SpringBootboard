@@ -14,8 +14,8 @@ import org.springframework.ui.Model;
 import springboot.domain.alert.Alert;
 import springboot.domain.alert.AlertRepository;
 import springboot.domain.user.User;
-import springboot.domain.comment.alert.alertResponseDto;
-import springboot.domain.comment.alert.alertSaveDto;
+import springboot.web.dto.alert.alertResponseDto;
+import springboot.web.dto.alert.alertSaveDto;
 import springboot.firebase.NotificationRequest;
 import springboot.firebase.NotificationService;
 import springboot.utils.WebsocketClientEndpoint;
@@ -38,7 +38,7 @@ public class AlertService {
 
     private final NotificationService notificationService;
 
-    public ArrayList findAllTickers(){
+    public ArrayList findAllTickers(Model model){
         ArrayList<String> arr = null;
         try {
             OkHttpClient client = new OkHttpClient();
@@ -60,7 +60,7 @@ public class AlertService {
 
             while (it.hasNext()) {
                 String ticker;
-                ticker = (String) it.next().get("symbol");
+                ticker = (String) it.next().get("id");
 
                 arr.add(ticker);
             }
@@ -70,6 +70,9 @@ public class AlertService {
         } catch (ParseException pe) {
             System.err.println("ParseException " + pe.getMessage());
         }
+
+        model.addAttribute("tickers",arr);
+
         return arr;
     }
 
@@ -99,10 +102,12 @@ public class AlertService {
     public void AlertUser() {
          Alert alert = alertRepository.findAll().get(0);
          double SetPrice = alert.getPrice();
+         String ticker = alert.getTicker();
+
         JSONParser jsonParser = new JSONParser();
 
         final NotificationRequest build = NotificationRequest.builder()
-                .title("bitcoin alert")
+                .title(ticker + " alert")
                 .message(SetPrice + "broke down")
                 .token(notificationService.getToken(userDetailService.returnUser().getEmail()))
                 .build();
@@ -110,16 +115,17 @@ public class AlertService {
         try {
             final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint();
 
-            Session session = clientEndPoint.connect(new URI("wss://ws.coincap.io/prices?assets=bitcoin"));
+            Session session = clientEndPoint.connect(new URI("wss://ws.coincap.io/prices?assets=" + ticker));
 
             WebsocketClientEndpoint.MessageHandler handler = new WebsocketClientEndpoint.MessageHandler() {
                 public void handleMessage(String message) throws ParseException, IOException {
                     Object obj = jsonParser.parse(message);
 
                     JSONObject jsonObject = (JSONObject) obj;
-                    System.out.println(jsonObject);
 
-                    double price = Double.parseDouble(jsonObject.get("bitcoin").toString());
+                    double price = Double.parseDouble(jsonObject.get(ticker).toString());
+
+                    System.out.println("가격 : " + price);
 
                     if (price < SetPrice) {
                         System.out.println("끝");
@@ -134,7 +140,6 @@ public class AlertService {
                     }
                 }
             };
-
             clientEndPoint.addMessageHandler(handler);
 
         } catch (URISyntaxException ex) {
