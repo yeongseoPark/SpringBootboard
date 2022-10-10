@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import springboot.firebase.NotificationService;
 import springboot.service.AlertService;
-import springboot.domain.comment.alert.alertSaveDto;
-import springboot.domain.comment.alert.alertResponseDto;
+import springboot.web.dto.alert.alertSaveDto;
+import springboot.web.dto.alert.alertResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +31,13 @@ public class AlertController {
 
         List<alertResponseDto> alerts = alertService.findByUser(model);
 
-        ArrayList<String> tickers = alertService.findAllTickers();
+        ArrayList<String> tickers = alertService.findAllTickers(model);
 
         if (alerts != null) {
             model.addAttribute("alerts", alerts);
         }
 
-        model.addAttribute(tickers);
+        model.addAttribute("tickers", tickers);
 
         return "alert";
     }

@@ -43,7 +43,8 @@ var main = {
     alertSave : function () {
         var data = {
             price : $('#price').val(),
-            percentage : $('#percentage').val()
+            percentage : $('#percentage').val(),
+            ticker : $('#contact').val()
         };
 
         $.ajax({
