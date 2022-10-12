@@ -28,6 +28,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
@@ -99,9 +100,11 @@ public class AlertService {
         return alertsDto;
     }
 
-    public void AlertUser() {
-         Alert alert = alertRepository.findAll().get(0);
-         double SetPrice = alert.getPrice();
+    public void AlertUser(Long id) {
+
+        Alert alert = alertRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+
+        double SetPrice = alert.getPrice();
          String ticker = alert.getTicker();
 
         JSONParser jsonParser = new JSONParser();

@@ -21,18 +21,19 @@ var main = {
             _this.alertSave();
         });
 
-       $('#alert-start').on('click', function() {
-                _this.alertStart();
-            });
+       $('input[name=alert-start]').on('click', function(e) { //e는 input 정보를 가진 이벤트
+           _this.alertStart(e);
+       });
     },
 
-    alertStart : function() {
+
+    alertStart : function(e) {
+        var id =  $(e.target).data("id");
+        // target은 이벤트가 발생한 대상 객체
+
          $.ajax({
                             type: 'GET',
-                            url: '/alerts/1',
-//                            dataType: 'json',
-//                            contentType:'application/json; charset=utf-8',
-//                            data: JSON.stringify(data)
+                            url: '/alerts/'+id,
                         }).done(function() {
                             alert('알림이 시작됩니다.');
                         }).fail(function (error) {

@@ -11,6 +11,7 @@ import springboot.domain.user.User;
 @NoArgsConstructor
 public class alertSaveDto {
     private User user;
+
     private double price;
     private double percentage;
     private String ticker;
