@@ -21,18 +21,22 @@ var main = {
             _this.alertSave();
         });
 
-       $('#alert-start').on('click', function() {
-                _this.alertStart();
-            });
+       $('input[name=alert-start]').on('click', function(e) { //e는 이벤트임 얘가 input 정보를 갖고 있음
+         // e.target.dataId 하면 아마 id를 갖고 있을건데
+          let id = $(e.target).data("id")
+          console.log(id) // <-- 이거 아이디가 잘 찍힐거임
+           _this.alertStart(e);
+       });
     },
 
-    alertStart : function() {
+
+    alertStart : function(id) {
+//    var idx = $('idx').val();
+var id =  $(id.target).data("id");
+
          $.ajax({
                             type: 'GET',
-                            url: '/alerts/1',
-//                            dataType: 'json',
-//                            contentType:'application/json; charset=utf-8',
-//                            data: JSON.stringify(data)
+                            url: '/alerts/'+id,
                         }).done(function() {
                             alert('알림이 시작됩니다.');
                         }).fail(function (error) {
@@ -43,7 +47,8 @@ var main = {
     alertSave : function () {
         var data = {
             price : $('#price').val(),
-            percentage : $('#percentage').val()
+            percentage : $('#percentage').val(),
+            ticker : $('#contact').val()
         };
 
         $.ajax({

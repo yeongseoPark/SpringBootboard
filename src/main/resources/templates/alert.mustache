@@ -1,15 +1,5 @@
 {{>layout/header}}
 
-
-<!--<div class="form-group" id="submenu_list"></div>-->
-<!--<script id="dropDownList" type="text/template">-->
-<!--    <select class="form-control" name="sub_menu" id="sub_menu" >-->
-<!--        {{#tickers}}-->
-<!--            <option value="{{.}}">{{.}}</option>-->
-<!--        {{/tickers}}-->
-<!--    </select>-->
-<!--</script>-->
-
 <form method="post" action="submitform" id="tickerSubmit">
     <select name="contact" id="contact">
         {{#tickers}}
@@ -25,13 +15,16 @@
     <button type="button" class="btn btn-primary" id="alert-save-btn">알림 등록</button>
 </div>
 
-{{#alerts}} <!-- 리스트를 순회, 변수 는 여기서 뽑아낸 객체의 필드, 컨트롤러에서 model 객체를 통해 넘겨줌-->
-<tr>
-    <td><button type="button" id = "alert-start">알림 시작</button></td>
+{{#alerts}}
+<tr name = "alerts">
+<!--    <input class = "idx" style="display : None" value="{{id}}">-->
+    <td><input type="submit" value="알림시작" name="alert-start"  data-id="{{id}}"></td>
     <td>티커 : {{ticker}}</td>
     <td>가격 : {{price}}</td>
 </tr>
 {{/alerts}}
+
+
 
 <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>

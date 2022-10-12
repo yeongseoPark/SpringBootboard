@@ -42,9 +42,9 @@ public class AlertController {
         return "alert";
     }
 
-    @GetMapping("/alerts/1")
+    @GetMapping("/alerts/{id}")
     @ResponseBody
-    public void AlertUser() {
-        alertService.AlertUser();
+    public void AlertUser(@PathVariable Long id) {
+        alertService.AlertUser(id);
     }
 }
