@@ -23,6 +23,10 @@ public class Alert {
     private User user;
 
     @Column
+    @NotNull
+    private AlertType alertType;
+
+    @Column
     private double price;
 
     @Column
@@ -31,6 +35,9 @@ public class Alert {
 
     @Column
     private double percentage;
+
+    @Column
+    private double InitialPrice;
 
     @Builder
     public Alert(User user, double price, double percentage) {

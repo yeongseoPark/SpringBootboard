@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import springboot.domain.alert.Alert;
 import springboot.domain.alert.AlertRepository;
+import springboot.domain.alert.AlertType;
 import springboot.domain.user.User;
 import springboot.web.dto.alert.alertResponseDto;
 import springboot.web.dto.alert.alertSaveDto;
@@ -100,20 +101,33 @@ public class AlertService {
         return alertsDto;
     }
 
-    public void AlertUser(Long id) {
+    public void AlertUserByPrice(Long id) {
 
         Alert alert = alertRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+
+        String type = alert.getAlertType().getKey();
 
         double SetPrice = alert.getPrice();
          String ticker = alert.getTicker();
 
         JSONParser jsonParser = new JSONParser();
 
-        final NotificationRequest build = NotificationRequest.builder()
-                .title(ticker + " alert")
-                .message(SetPrice + "broke down")
-                .token(notificationService.getToken(userDetailService.returnUser().getEmail()))
-                .build();
+        final NotificationRequest build;
+
+        if (type == "l_break") {
+            build = NotificationRequest.builder()
+                    .title(ticker + " alert")
+                    .message(SetPrice + "broke down")
+                    .token(notificationService.getToken(userDetailService.returnUser().getEmail()))
+                    .build();
+        }
+        else { // upper_break
+            build = NotificationRequest.builder()
+                    .title(ticker + " alert")
+                    .message(SetPrice + "pierced upward")
+                    .token(notificationService.getToken(userDetailService.returnUser().getEmail()))
+                    .build();
+        }
 
         try {
             final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint();
@@ -130,10 +144,18 @@ public class AlertService {
 
                     System.out.println("가격 : " + price);
 
-                    if (price < SetPrice) {
-                        System.out.println("끝");
-                        notificationService.sendNotification(build);
-                        session.close();
+                    if (type == "l_break") {
+                        if (price < SetPrice) {
+                            System.out.println("끝");
+                            notificationService.sendNotification(build);
+                            session.close();
+                        }
+                    } else {
+                        if (price > SetPrice) {
+                            System.out.println("끝");
+                            notificationService.sendNotification(build);
+                            session.close();
+                        }
                     }
 
                     try {
@@ -149,4 +171,83 @@ public class AlertService {
             System.err.println("URISyntaxException exception: " + ex.getMessage());
         }
     }
+
+
+//    public void AlertUserByPercentage(Long id) {
+//        Alert alert = alertRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+//
+//        String type = alert.getAlertType().getKey();
+//
+//        double SetPercentage = alert.getPercentage();
+//        String ticker = alert.getTicker();
+//
+//        JSONParser jsonParser = new JSONParser();
+//
+//        final NotificationRequest build;
+//
+//        if (type == "l_percent") {
+//            build = NotificationRequest.builder()
+//                    .title(ticker + " alert")
+//                    .message("moved " + SetPercentage + " percent downward")
+//                    .token(notificationService.getToken(userDetailService.returnUser().getEmail()))
+//                    .build();
+//        }
+//        else { // upper_break
+//            build = NotificationRequest.builder()
+//                    .title(ticker + " alert")
+//                    .message("moved " + SetPercentage + " percent upward")
+//                    .token(notificationService.getToken(userDetailService.returnUser().getEmail()))
+//                    .build();
+//        }
+//
+//        try {
+//            final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint();
+//
+//            Session session = clientEndPoint.connect(new URI("wss://ws.coincap.io/prices?assets=" + ticker));
+//
+//            WebsocketClientEndpoint.MessageHandler handler = new WebsocketClientEndpoint.MessageHandler() {
+//                public void handleMessage(String message) throws ParseException, IOException {
+//                    Object obj = jsonParser.parse(message);
+//
+//                    JSONObject jsonObject = (JSONObject) obj;
+//
+//                    double price = Double.parseDouble(jsonObject.get(ticker).toString());
+//
+//                    /* 여기서 맨 처음 가격 저장해주고 */
+//
+//
+//                    System.out.println("가격 : " + price);
+//
+//                    /* 퍼센티지 움직임 계산 */
+//
+//                    if (type == "l_percent") {
+//                        if (price < SetPrice) {
+//                            System.out.println("끝");
+//                            notificationService.sendNotification(build);
+//
+//                            /* 여기서 초기 가격 삭제해줘야 함 */
+//                            session.close();
+//                        }
+//                    } else {
+//                        if (price > SetPrice) {
+//                            System.out.println("끝");
+//                            notificationService.sendNotification(build);
+//                            /* 여기서 초기 가격 삭제해줘야 함 */
+//                            session.close();
+//                        }
+//                    }
+//
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException ex) {
+//                        System.err.println("InterruptedException exception: " + ex.getMessage());
+//                    }
+//                }
+//            };
+//            clientEndPoint.addMessageHandler(handler);
+//
+//        } catch (URISyntaxException ex) {
+//            System.err.println("URISyntaxException exception: " + ex.getMessage());
+//        }
+//    }
 }
