@@ -45,6 +45,6 @@ public class AlertController {
     @GetMapping("/alerts/{id}")
     @ResponseBody
     public void AlertUser(@PathVariable Long id) {
-        alertService.AlertUser(id);
+        alertService.AlertUserByPrice(id);
     }
 }
