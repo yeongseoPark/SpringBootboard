@@ -57,6 +57,7 @@ public class WebsocketClientEndpoint {
      */
     @OnMessage
     public void onMessage(String message) throws ParseException, IOException {
+
         if (this.messageHandler != null) {
             this.messageHandler.handleMessage(message);
         }

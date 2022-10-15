@@ -37,7 +37,11 @@ public class Alert {
     private double percentage;
 
     @Column
-    private double InitialPrice;
+    private Double PercentageCutPrice;
+
+    public void setPercentageCutPrice(Double p) {
+        PercentageCutPrice = p;
+    }
 
     @Builder
     public Alert(User user, double price, double percentage) {
