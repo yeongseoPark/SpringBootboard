@@ -21,19 +21,15 @@ var main = {
             _this.alertSave();
         });
 
-       $('input[name=alert-start]').on('click', function(e) { //e는 이벤트임 얘가 input 정보를 갖고 있음
-         // e.target.dataId 하면 아마 id를 갖고 있을건데
-          let id = $(e.target).data("id")
-          console.log(id) // <-- 이거 아이디가 잘 찍힐거임
+       $('input[name=alert-start]').on('click', function(e) { //e는 input 정보를 가진 이벤트
            _this.alertStart(e);
        });
     },
 
 
-    alertStart : function(id) {
-//    var idx = $('idx').val();
-var id =  $(id.target).data("id");
-
+    alertStart : function(e) {
+        var id =  $(e.target).data("id");
+        // target은 이벤트가 발생한 대상 객체
          $.ajax({
                             type: 'GET',
                             url: '/alerts/'+id,
@@ -48,7 +44,8 @@ var id =  $(id.target).data("id");
         var data = {
             price : $('#price').val(),
             percentage : $('#percentage').val(),
-            ticker : $('#contact').val()
+            ticker : $('#contact').val(),
+            alertType : $('#alertType').val()
         };
 
         $.ajax({

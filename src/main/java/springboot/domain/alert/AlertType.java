@@ -13,3 +13,4 @@ public enum AlertType {
 
     private final String key;
 }
+
