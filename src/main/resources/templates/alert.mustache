@@ -9,9 +9,18 @@
 <!--    <button type="submit" name="submit">Choose Ticker</button>-->
 </form>
 
+<!--알람 종류 폼->-->
+<select id = "alertType">
+    <option value="Upper_break">상향 퍼센티지</option>
+    <option value="Lower_break">하향 퍼센티지</option>
+    <option value="Upper_percent">상향 돌파</option>
+    <option value="Lower_percent">하향 돌파</option>
+</select>
+
+
 <div>
-    <input type="number" id = "price" placeholder="하한 금액을 입력하세요">
-    <input type="number" id = "percentage" placeholder="하한 퍼센트를 입력하세요">
+    <input type="number" id = "price" placeholder="금액을 입력하세요">
+    <input type="number" id = "percentage" placeholder="퍼센트를 입력하세요">
     <button type="button" class="btn btn-primary" id="alert-save-btn">알림 등록</button>
 </div>
 

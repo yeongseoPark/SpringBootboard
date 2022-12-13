@@ -30,7 +30,6 @@ var main = {
     alertStart : function(e) {
         var id =  $(e.target).data("id");
         // target은 이벤트가 발생한 대상 객체
-
          $.ajax({
                             type: 'GET',
                             url: '/alerts/'+id,
@@ -45,7 +44,8 @@ var main = {
         var data = {
             price : $('#price').val(),
             percentage : $('#percentage').val(),
-            ticker : $('#contact').val()
+            ticker : $('#contact').val(),
+            alertType : $('#alertType').val()
         };
 
         $.ajax({
