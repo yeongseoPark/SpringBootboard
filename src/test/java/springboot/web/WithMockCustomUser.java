@@ -13,6 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 public @interface WithMockCustomUser {
     String name() default "testName";
 
+
     String email() default "testEmail@naver.com";
 
     String role() default "USER";
