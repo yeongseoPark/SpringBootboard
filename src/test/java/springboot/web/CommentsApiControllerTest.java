@@ -2,6 +2,7 @@ package springboot.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
+import org.hibernate.annotations.Cascade;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -86,7 +87,7 @@ public class CommentsApiControllerTest {
 
     @Before
     public void setUser() {
-        User user = new User("fakeUser","1park5@naver.com","fakePic.com",Role.USER);
+        User user = new User("testName","testEmail@naver.com","fakePic.com",Role.USER);
         // 유저가 있어야 UserDetailService의 returnUser가 유저 가져올 수 있음
 
         userRepository.deleteAll();
@@ -96,7 +97,7 @@ public class CommentsApiControllerTest {
     @After
     public void tearDown() throws Exception {
         postsRepository.deleteAll();
-        commentRepository.deleteAll();
+//        commentRepository.deleteAll();
     }
 
     @AfterTransaction
@@ -113,17 +114,11 @@ public class CommentsApiControllerTest {
         // given
         String title = "title";
         String content = "content";
-        User user = userRepository.save(User.builder()
-                .name("name")
-                .email("fake@naver.com")
-                .picture("fakePic.com")
-                .role(Role.USER)
-                .build());
 
         PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder()
                 .title(title)
                 .content(content)
-                .user(user)
+                .user(userRepository.findAll().get(0))
                 .build();
         postsRepository.save(requestDto.toEntity());
 
