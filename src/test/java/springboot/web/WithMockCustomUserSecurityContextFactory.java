@@ -17,8 +17,8 @@ import java.util.Collection;
 @Getter
 class CustomUserDetails implements UserDetails {
 
-    public  String name = "fakeUser";
-    public String email = "1park5@naver.com";
+    public  String name = "testName"; // 12/16
+    public String email = "testEmail@naver.com"; // 12/16
 
     public Role role  = Role.USER;
 

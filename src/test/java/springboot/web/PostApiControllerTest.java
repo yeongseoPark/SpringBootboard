@@ -14,6 +14,7 @@ import org.springframework.http.*;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContext;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.web.servlet.MockMvc;
@@ -82,11 +83,11 @@ public class PostApiControllerTest {
 
     @Before
     public void setUser() {
-        User user = new User("fakeUser","1park5@naver.com","fakePic.com",Role.USER);
+        User user = new User("testName","testEmail@naver.com","fakePic.com",Role.USER);
         // 유저가 있어야 UserDetailService의 returnUser가 유저 가져올 수 있음
 
         userRepository.deleteAll();
-//        userRepository.save(user);
+        userRepository.save(user);
     }
 
 
@@ -126,6 +127,8 @@ public class PostApiControllerTest {
 
     @Test
     @WithMockCustomUser
+    @Sql(statements = "INSERT INTO user (name, email, role)\n" +
+            "VALUES ('testName', 'testEmail@naver.com', 'USER');")
     @Transactional
     public void posts_조회() throws Exception { // 추가
         //given
@@ -151,14 +154,6 @@ public class PostApiControllerTest {
 
         assertThat(post.getContent()).isEqualTo("getcontent");
         assertThat(post.getTitle()).isEqualTo("gettest");
-
-
-//       mvc.perform(get(url2)
-//                       .contentType(MediaType.APPLICATION_JSON))
-//               .andExpect(status().isOk())
-//               .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("gettest"))
-//               .andExpect(MockMvcResultMatchers.jsonPath("$.content").value("getcontent"));
-
     }
 
 
