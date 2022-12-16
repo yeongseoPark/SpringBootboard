@@ -2,6 +2,7 @@ package springboot.web;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.servlet.view.MustacheViewResolver;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,11 +25,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import springboot.domain.user.User;
+import springboot.domain.user.UserRepository;
 
 import java.util.Locale;
 
-//@RunWith(SpringRunner.class) -> Junit4
-@ExtendWith(SpringExtension.class) // Junit5 : @Test 애노테이션을 junit.jupiter.api.Test 로 사용중이기에.
+@ExtendWith(SpringExtension.class) // Junit5 : @Test 애노테이션을 junit.jupiter.api.Test 로 사용중
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 public class AlertControllerTest {
@@ -36,6 +39,9 @@ public class AlertControllerTest {
 
     @Autowired
     private AlertController alertController;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Before
     public void setup() {
@@ -46,9 +52,16 @@ public class AlertControllerTest {
                 .build();
     }
 
+    @AfterEach
+    public void tearDown() {
+        userRepository.deleteAll();
+    }
+
     @Test
-    @WithMockUser(username = "email=1park4170@gmail.com,")
-    public void AlertPage_loading() throws Exception {
+    @WithMockCustomUser
+    @Sql(statements = "INSERT INTO user (name, email, role)\n" +
+            "VALUES ('testName', 'testEmail@naver.com', 'USER');")
+    public void AlertPage_loading_test() throws Exception {
         String body = mockMvc.perform(get("/alerts"))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -58,6 +71,22 @@ public class AlertControllerTest {
 
         // then
         Assertions.assertThat(body).contains("알림 등록");
+    }
+
+
+    @Test
+    public void AlertsSave_test() throws Exception {
+
+    }
+
+    @Test
+    public void AlertUserbyPrice_test() {
+
+    }
+
+    @Test
+    public void AlertUserbyPercentage_test() {
+
     }
 }
 
