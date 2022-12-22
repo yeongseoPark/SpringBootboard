@@ -104,28 +104,6 @@ public class AlertControllerTest {
         Assertions.assertThat(alertRepository.findByUser(user.getId()).get(0).getPrice()).isEqualTo(100.1);
 
     }
-
-//    @Test
-//    @WithMockCustomUser
-//    @Sql(statements = "INSERT INTO user (name, email, role)\n" +
-//            "VALUES ('testName', 'testEmail@naver.com', 'USER');")
-//    public void AlertUserbyPrice_test() {
-//        User user = userRepository.findByEmail("testEmail@naver.com").get();
-//        alertSaveDto saveDto = new alertSaveDto(user,100.1, 12.2, "bitcoin", AlertType.Lower_break.toString());
-//
-//        alertController.AlertSave(saveDto);
-//
-//        Alert alert = alertRepository.findByUser(user.getId()).get(0);
-//        Long id = alert.getId();
-//
-//        mockMvc.perform(get("/alerts/" + id)
-//                .
-//    }
-
-    @Test
-    public void AlertUserbyPercentage_test() {
-
-    }
 }
 
 

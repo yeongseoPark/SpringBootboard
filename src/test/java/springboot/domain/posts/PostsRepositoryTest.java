@@ -39,6 +39,7 @@ public class PostsRepositoryTest {
     @After // 단위 테스트 끝난 이후
     public void cleanup() {
         postsRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test

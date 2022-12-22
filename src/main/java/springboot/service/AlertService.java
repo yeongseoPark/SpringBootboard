@@ -37,7 +37,6 @@ public class AlertService {
 
     private final AlertRepository alertRepository;
     private final UserDetailService userDetailService;
-
     private final NotificationService notificationService;
 
     public ArrayList findAllTickers(Model model){
@@ -108,7 +107,7 @@ public class AlertService {
         String type = alert.getAlertType().getKey();
 
         double SetPrice = alert.getPrice();
-         String ticker = alert.getTicker();
+        String ticker = alert.getTicker();
 
         JSONParser jsonParser = new JSONParser();
 

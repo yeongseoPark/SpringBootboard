@@ -94,6 +94,7 @@ public class PostApiControllerTest {
     @After
     public void tearDown() throws Exception {
         postsRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @AfterTransaction // 조회 기능 테스트 후 teardown
