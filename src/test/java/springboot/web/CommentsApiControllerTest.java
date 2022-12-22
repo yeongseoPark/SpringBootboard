@@ -98,6 +98,7 @@ public class CommentsApiControllerTest {
     public void tearDown() throws Exception {
         postsRepository.deleteAll();
 //        commentRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @AfterTransaction

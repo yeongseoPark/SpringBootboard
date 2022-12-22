@@ -1,6 +1,9 @@
 package springboot.service;
 
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.transaction.BeforeTransaction;
 import springboot.domain.alert.Alert;
 import springboot.domain.alert.AlertRepository;
 import springboot.domain.alert.AlertType;
@@ -49,6 +53,7 @@ public class AlertServiceTest {
         // Set up test data
         User user = userRepository.findByEmail("testEmail@naver.com").get();
         Alert alert = Alert.builder().user(user).ticker("bitcoin").alertType(AlertType.Lower_break).price(100.1).percentage(12.2).build();
+        mockAlertRepository.save(alert);
 
         when(mockAlertRepository.findById(1L)).thenReturn(Optional.of(alert));
 
@@ -57,6 +62,7 @@ public class AlertServiceTest {
                 .message("100.0 broke down")
                 .token("abc123")
                 .build();
+
         when(mockNotificationService.getToken(anyString())).thenReturn("abc123");
 
         // Create an instance of the service and inject the mock dependencies
