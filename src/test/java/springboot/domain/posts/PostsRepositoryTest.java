@@ -1,6 +1,5 @@
 package springboot.domain.posts;
 
-import javafx.geometry.Pos;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Test;
