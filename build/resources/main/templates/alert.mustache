@@ -1,0 +1,43 @@
+{{>layout/header}}
+
+<form method="post" action="submitform" id="tickerSubmit">
+    <select name="contact" id="contact">
+        {{#tickers}}
+            <option value="{{.}}">{{.}}</option>
+        {{/tickers}}
+    </select>
+<!--    <button type="submit" name="submit">Choose Ticker</button>-->
+</form>
+
+<!--알람 종류 폼->-->
+<select id = "alertType">
+    <option value="Upper_break">상향 퍼센티지</option>
+    <option value="Lower_break">하향 퍼센티지</option>
+    <option value="Upper_percent">상향 돌파</option>
+    <option value="Lower_percent">하향 돌파</option>
+</select>
+
+
+<div>
+    <input type="number" id = "price" placeholder="금액을 입력하세요">
+    <input type="number" id = "percentage" placeholder="퍼센트를 입력하세요">
+    <button type="button" class="btn btn-primary" id="alert-save-btn">알림 등록</button>
+</div>
+
+{{#alerts}}
+<tr name = "alerts">
+<!--    <input class = "idx" style="display : None" value="{{id}}">-->
+    <td><input type="submit" value="알림시작" name="alert-start"  data-id="{{id}}"></td>
+    <td>티커 : {{ticker}}</td>
+    <td>가격 : {{price}}</td>
+</tr>
+{{/alerts}}
+
+
+
+<script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-messaging.js"></script>
+<script src="/js/app/notification.js"></script>
+
+{{>layout/footer}}
