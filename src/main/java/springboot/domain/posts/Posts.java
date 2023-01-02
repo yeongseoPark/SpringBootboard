@@ -27,19 +27,17 @@ public class Posts extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-//    private String author;
-
     @OneToMany(mappedBy = "posts", cascade = CascadeType.REMOVE) // 기본이 지연로딩
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private User author;
 
     @Builder
     public Posts(String title, String content, User user) {
         this.title = title;
         this.content = content;
-        this.user = user;
+        this.author = user;
     }
 
     public void update(String title , String content) {
