@@ -36,7 +36,7 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "author")
     private List<Posts> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")

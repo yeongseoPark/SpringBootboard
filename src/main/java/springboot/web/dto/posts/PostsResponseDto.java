@@ -20,7 +20,7 @@ public class PostsResponseDto {
         this.id       = entity.getId();
         this.title    = entity.getTitle();
         this.content  = entity.getContent();
-        this.userName   = entity.getUser().getName();
+        this.userName   = entity.getAuthor().getName();
         this.comments = entity.getComments()
                 .stream().map(CommentResponseDto::new)
                 .collect(Collectors.toList());
