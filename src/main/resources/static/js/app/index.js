@@ -26,7 +26,6 @@ var main = {
        });
     },
 
-
     alertStart : function(e) {
         var id =  $(e.target).data("id");
         // target은 이벤트가 발생한 대상 객체
