@@ -6,15 +6,14 @@
             <option value="{{.}}">{{.}}</option>
         {{/tickers}}
     </select>
-<!--    <button type="submit" name="submit">Choose Ticker</button>-->
 </form>
 
 <!--알람 종류 폼->-->
 <select id = "alertType">
-    <option value="Upper_break">상향 퍼센티지</option>
-    <option value="Lower_break">하향 퍼센티지</option>
-    <option value="Upper_percent">상향 돌파</option>
-    <option value="Lower_percent">하향 돌파</option>
+    <option value="Upper_break">상향 돌파</option>
+    <option value="Lower_break">하향 돌파</option>
+    <option value="Upper_percent">상향 퍼센티지</option>
+    <option value="Lower_percent">하향 퍼센티지</option>
 </select>
 
 
@@ -30,6 +29,13 @@
     <td><input type="submit" value="알림시작" name="alert-start"  data-id="{{id}}"></td>
     <td>티커 : {{ticker}}</td>
     <td>가격 : {{price}}</td>
+    <td>유형 : {{type}} </td>
+    {{#percentage}}
+        <td>퍼센티지 : {{percentage}}</td>
+    {{/percentage}}
+    {{^percentage}}
+        <td></td>
+    {{/percentage}}
 </tr>
 {{/alerts}}
 
