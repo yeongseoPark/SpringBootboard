@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Service
@@ -43,6 +44,9 @@ public class AlertService {
         ArrayList<String> arr = null;
         try {
             OkHttpClient client = new OkHttpClient();
+            client.setConnectTimeout(15, TimeUnit.SECONDS);
+            client.setReadTimeout(20, TimeUnit.SECONDS);
+
             MediaType mediaType = MediaType.parse("text/plain");
             Request request = new Request.Builder()
                     .url("http://api.coincap.io/v2/assets")
@@ -67,7 +71,7 @@ public class AlertService {
             }
 
         } catch (IOException ie) {
-            System.err.println("IOExcption " + ie.getMessage());
+            System.err.println("IOException " + ie.getMessage());
         } catch (ParseException pe) {
             System.err.println("ParseException " + pe.getMessage());
         }
@@ -80,7 +84,6 @@ public class AlertService {
     public long save(@NotNull alertSaveDto alertSaveDto) {
         User user = userDetailService.returnUser();
         alertSaveDto.setUser(user);
-
         return alertRepository.save(alertSaveDto.toEntity()).getId();
     }
 
