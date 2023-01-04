@@ -16,15 +16,18 @@ const firebaseModule = (function () {
                         };
 
                         // Initialize Firebase
+                        console.log("firebase Initialization");
                         firebase.initializeApp(firebaseConfig);
 
                         // Show Notificaiton Dialog
                         const messaging = firebase.messaging();
                         messaging.requestPermission()
                         .then(function() {
+                            console.log("Permission granted to get token");
                             return messaging.getToken();
                         })
                         .then(async function(token) {
+                            console.log("Token: ", token);
                             await fetch('/register', { method: 'post', body: token })
                             messaging.onMessage(payload => {
                                 const title = payload.notification.title
@@ -37,7 +40,7 @@ const firebaseModule = (function () {
                             })
                         })
                         .catch(function(err) {
-                            console.log("Error Occured");
+                            console.log("Error Occured : " +err );
                         })
                     })
             })
