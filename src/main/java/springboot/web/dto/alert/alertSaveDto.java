@@ -27,7 +27,6 @@ public class alertSaveDto {
     }
 
     public Alert toEntity() {
-        System.out.println(alertType.getKey());
         return Alert.builder()
                 .user(user)
                 .price(price)

@@ -29,7 +29,13 @@
     <td><input type="submit" value="알림시작" name="alert-start"  data-id="{{id}}"></td>
     <td>티커 : {{ticker}}</td>
     <td>가격 : {{price}}</td>
-    <td>유형 : {{}}</td>
+    <td>유형 : {{type}} </td>
+    {{#percentage}}
+        <td>퍼센티지 : {{percentage}}</td>
+    {{/percentage}}
+    {{^percentage}}
+        <td></td>
+    {{/percentage}}
 </tr>
 {{/alerts}}
 
