@@ -3,10 +3,10 @@
 <form method="post" action="submitform" id="tickerSubmit">
     <select name="contact" id="contact">
         {{#tickers}}
+            <option value="#"> Tickers</option>
             <option value="{{.}}">{{.}}</option>
         {{/tickers}}
     </select>
-<!--    <button type="submit" name="submit">Choose Ticker</button>-->
 </form>
 
 <!--알람 종류 폼->-->
