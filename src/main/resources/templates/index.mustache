@@ -5,14 +5,14 @@
         <div class="row">
             <div class="col-md-6">
                 <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
-                {{#userName}} <!-- userName이 있다면 이를 노출 -->
-                Logged in as : <span id="user"> {{userName}} </span>
+                {{#loginUserName}} <!-- loginUserName이 있다면 이를 노출 -->
+                Logged in as : <span id="user"> {{loginUserName}} </span>
                 <a href = "/logout" class="btn btn-info active" role = "button">Logout</a>
-                {{/userName}}
-                {{^userName}} <!--userName이 존재하지 않는 경우 로그인버튼 -->
+                {{/loginUserName}}
+                {{^loginUserName}} <!--loginUserName이 존재하지 않는 경우 로그인버튼 -->
                     <a href ="/oauth2/authorization/google"
                        class = "btn btn-success active" role="button">Google Login</a>
-                {{/userName}}
+                {{/loginUserName}}
             </div>
         </div>
         <br>
@@ -47,9 +47,9 @@
             {{/hasNext}}
         </ul>
 
-        {{#userName}} <!-- userName이 있다면 이를 노출 -->
+        {{#loginUserName}} <!-- loginUserName이 있다면 이를 노출 -->
             <a href = "/alerts" role = "button">alerts</a>
-        {{/userName}}
+        {{/loginUserName}}
 
     </div>
 {{>layout/footer}}
