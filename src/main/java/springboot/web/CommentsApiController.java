@@ -18,7 +18,7 @@ public class CommentsApiController {
         return ResponseEntity.ok(commentService.commentSave(requestDto, id));
     }
 
-    @DeleteMapping("api/posts/{id}/comments/{CommentId}")
+    @DeleteMapping("api/v1/posts/{id}/comments/{CommentId}")
     public Long delete(@PathVariable Long id, @PathVariable Long CommentId) {
         commentService.delete(CommentId);
         return id;
