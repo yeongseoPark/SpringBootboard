@@ -19,7 +19,7 @@ const firebaseModule = (function () {
                         console.log("firebase Initialization");
                         firebase.initializeApp(firebaseConfig);
 
-                        // Show Notificaiton Dialog
+                        // Show Notification Dialog
                         const messaging = firebase.messaging();
                         messaging.requestPermission()
                         .then(function() {
