@@ -54,10 +54,10 @@ public class PostsService {
     public void delete(Long id) {
         Posts posts = postsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + id));
-        // 존재하는 Posts인지 확인하기 위해 엔티티 조회 후 삭제
         postsRepository.delete(posts);
     }
 
+    @Transactional(readOnly = true)
     public PostsResponseDto findById(Long id) {
         Posts entity = postsRepository.findById(id).
                 orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id =" + id));
@@ -66,7 +66,7 @@ public class PostsService {
     }
 
     /* 페이징 1 */
-    @Transactional(readOnly = true) //트랜젝션 범위는 유지하나, 조회 기능만 남겨서 조회 속도를 개선함
+    @Transactional(readOnly = true)
     public Page<Posts> findAllDesc(Pageable pageable) {
         return postsRepository.findAllDesc(pageable);
     }

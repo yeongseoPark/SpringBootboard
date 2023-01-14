@@ -10,6 +10,7 @@
                 </span>
                 <div>작성자 : {{userName}}</div>
                 <div>내용 : {{comment}}</div>
+                <button type="button" id="btn-comment-delete" class="btn btn-outline-primary bi bi-pencil-square" data-post-id="{{post.id}}" data-comment-id="{{id}}"> 댓글 삭제</button>
             </li>
         {{/comment}}
     </ul>

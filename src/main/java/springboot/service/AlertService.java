@@ -1,9 +1,6 @@
 package springboot.service;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import com.squareup.okhttp.*;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -47,7 +44,6 @@ public class AlertService {
             client.setConnectTimeout(15, TimeUnit.SECONDS);
             client.setReadTimeout(20, TimeUnit.SECONDS);
 
-            MediaType mediaType = MediaType.parse("text/plain");
             Request request = new Request.Builder()
                     .url("http://api.coincap.io/v2/assets")
                     .get()
